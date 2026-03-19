@@ -85,3 +85,5 @@
 🛠️ migration:
     - npx drizzle-kit generate
     - npx drizzle-kit push
+
+npx ts-node src/worker/index.ts

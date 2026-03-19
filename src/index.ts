@@ -2,6 +2,7 @@ import express from "express";
 import { createPipeline, getPipelines, deletePipeline, getPipelineById } from "./api/pipelines";
 import { handleWebhook } from "./api/webhook";
 import { getJobById, getJobs } from "./api/jobs";
+import { addSubscriber } from "./api/subscribers";
 
 const app = express();
 app.use(express.json());
@@ -20,6 +21,8 @@ app.post("/webhook/:pipelineId", handleWebhook);
 
 app.get("/jobs", getJobs);
 app.get("/jobs/:id", getJobById);
+
+app.post("/subscribers", addSubscriber);
 
 const PORT = 3000;
 
