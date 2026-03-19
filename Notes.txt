@@ -1,0 +1,78 @@
+🎯 Embroidery Automation Pipeline (EAP)
+
+🔹 Database (PostgreSQL):
+    pipelines
+        - id
+        - name
+        - source_url
+
+    actions
+        - id
+        - pipeline_id
+        - type
+
+    subscribers
+        - id
+        - pipeline_id
+        - target_url
+
+    jobs
+        - id
+        - pipeline_id
+        - status
+        - payload
+
+    deliveries
+        - id
+        - job_id
+        - status
+        - attempts
+
+
+🔧 Backend -> [Node.js + TypeScript, Express (Webhook endpoint)]
+    Queue -> [Drizzle + Postgres Queue]
+    DB -> [PostgreSQL]
+    Workers -> [Job Processor]
+    APIs -> Meta Graph API (Instagram + WhatsApp)
+
+
+⚙️ Processing Actions:
+    ✅ Action 1: Text Parser -> Name, Product
+    ✅ Action 2: Auto Reply Generator 
+    ✅ Action 3: Priority Detection -> urgent / normal
+    ✅ Action 4: Price Estimator
+
+
+🔥 APIs:
+    - Pipelines:
+        POST   /pipelines
+        GET    /pipelines
+        GET    /pipelines/:id
+        DELETE /pipelines/:id
+
+    - Webhook:
+        POST /webhook/:pipelineId
+    
+    - Jobs:
+        GET /jobs
+        GET /jobs/:id
+
+🔁 Retry Logic:
+    attempts: 3
+    backoff: exponential
+
+
+📊 Dashboard:
+    React -> [jobs, status, logs]
+
+
+🚀 Step 1: Project Setup:
+     #_structure:
+        src/
+        ├── api/          # routes + controllers
+        ├── db/           # drizzle config + schema
+        ├── queue/        # job queue logic
+        ├── worker/       # background processor
+        ├── services/     # processing actions
+        ├── types/        # types
+        └── utils/
