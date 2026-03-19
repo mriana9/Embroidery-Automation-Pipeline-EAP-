@@ -3,8 +3,10 @@ import { createPipeline, getPipelines, deletePipeline, getPipelineById } from ".
 import { handleWebhook } from "./api/webhook";
 import { getJobById, getJobs } from "./api/jobs";
 import { addSubscriber } from "./api/subscribers";
+import cors from 'cors';
 
 const app = express();
+app.use(cors()); 
 app.use(express.json());
 
 app.get("/", (req, res) => {
