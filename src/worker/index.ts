@@ -16,7 +16,7 @@ const processJobs = async () => {
     console.log("⏳ Processing job:", job.id);
 
     try {
-      // 2. "processing" 
+      // 2. "processing"
       await db
         .update(jobs)
         .set({ status: "processing" })
@@ -31,10 +31,11 @@ const processJobs = async () => {
         .set({
           status: "completed",
           payload: {
-            message: (job.payload as any).message, 
+            message: (job.payload as any).message,
             parsed: {
               name: result.extractedName,
               product: result.product,
+              price: result.price,
               priority: result.priority,
             },
             reply: result.reply,
