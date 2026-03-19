@@ -76,3 +76,12 @@
         ├── services/     # processing actions
         ├── types/        # types
         └── utils/
+
+------------------------------------------------------------------------------------------------------------
+🐳 PostgreSQL Using Docker:
+    - docker-compose.yml
+    - DB -> docker compose up -d
+    - docker ps
+🛠️ migration:
+    - npx drizzle-kit generate
+    - npx drizzle-kit push
