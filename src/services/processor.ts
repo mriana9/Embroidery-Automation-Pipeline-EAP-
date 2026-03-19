@@ -1,22 +1,20 @@
 export const processJob = async (payload: any) => {
   const text = payload.message || "";
 
+  const products = ["شنطة", "تيشيرت", "مخدة", "شال", "فستان"];
+
+  const foundProduct = products.find((p) => text.includes(p)) || "منتج مخصص";
+
+  const nameMatch = text.match(/اسم\s+(\S+)/);
+  const extractedName = nameMatch ? nameMatch[1] : "غير معروف";
+
+  const priority =
+    text.includes("بسرعة") || text.includes("مستعجل") ? "urgent" : "normal";
+
   return {
-    extractedName: extractName(text),
-    priority: detectPriority(text),
-    reply: generateReply(text),
+    extractedName,
+    product: foundProduct,
+    priority,
+    reply: `تم استلام طلبك لتطريز ${foundProduct} لـ ${extractedName} 💖، سيتم التواصل معك قريباً.`,
   };
-};
-
-const extractName = (text: string) => {
-  // أبسط parser: الكلمة الثالثة غالبًا الاسم
-  return text.split(" ")[2] || "غير معروف";
-};
-
-const detectPriority = (text: string) => {
-  return text.includes("بسرعة") ? "urgent" : "normal";
-};
-
-const generateReply = (text: string) => {
-  return "تم استلام طلبك 💖";
 };
