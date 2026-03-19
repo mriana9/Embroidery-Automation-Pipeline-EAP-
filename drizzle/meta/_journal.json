@@ -15,6 +15,13 @@
       "when": 1773892468798,
       "tag": "0001_chubby_frog_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773951609890,
+      "tag": "0002_ancient_adam_destine",
+      "breakpoints": true
     }
   ]
 }
