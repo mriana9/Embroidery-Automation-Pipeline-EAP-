@@ -45,6 +45,9 @@ Ensure you have **Docker** and **Docker Compose** installed.
 3.  **Launch with Docker:**
     ```bash
     docker-compose up --build
+    npm run worker
+    npm run dev
+    cd dashboard npm run dev
     ```
 
 ### 3. Access
