@@ -79,4 +79,4 @@ Ensure you have **Docker** and **Docker Compose** installed.
 ## 👤 Author
 
 **[Mariana Algafy]**
-_Developed as a Final Project for the Backend Development Internship._
+_Developed as a Final Project for the FTS Internship._
