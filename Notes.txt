@@ -71,11 +71,8 @@
         src/
         ├── api/          # routes + controllers
         ├── db/           # drizzle config + schema
-        ├── queue/        # job queue logic
         ├── worker/       # background processor
         ├── services/     # processing actions
-        ├── types/        # types
-        └── utils/
 
 ------------------------------------------------------------------------------------------------------------
 🐳 PostgreSQL Using Docker:
@@ -86,4 +83,112 @@
     - npx drizzle-kit generate
     - npx drizzle-kit push
 
-npx ts-node src/worker/index.ts
+
+------------------------------------------------------------------------------------------------------------
+# npm run worker
+# npm run dev
+# cd dashboard npm run dev
+
+
+1️⃣ Create Pipeline:
+    . POST
+    . http://localhost:3000/pipelines
+    . Body:
+        {
+            "name": "Embroidery Orders",
+            "description": "استلام وتحليل طلبات زبائن المشغل"
+        }
+    . Response:
+        [
+            {
+                "id": 1,
+                "name": "Embroidery Orders",
+                "sourceUrl": "/webhook/1773964823822"
+            }
+        ]
+
+2️⃣ Add Subscriber:
+    . POST
+    . Webhook.site
+    . http://localhost:3000/subscribers
+    . Body:
+        {
+            "pipelineId": 1,
+            "targetUrl": "https://webhook.site/218b120a-75d0-46a0-bc3e-fe275d90f724" 
+        }
+    . Response:
+        {
+            "id": 1,
+            "pipelineId": 1,
+            "targetUrl": "https://webhook.site/218b120a-75d0-46a0-bc3e-fe275d90f724"
+        }
+
+3️⃣ Webhook Ingestion
+    . POST
+    . http://localhost:3000/webhook/1
+    . Body:
+        {
+            "message": "بدي أطرز اسم أمير على شال كشمير، السعر حكينا 100 شيكل بس بدي اياه ضروري اليوم"
+        }
+    .Response:
+        {
+            "message": "Webhook received, job queued ✅",
+            "job": [
+                {
+                "id": 1,
+                "pipelineId": 1,
+                "status": "pending",
+                "payload": {
+                    "message": "بدي أطرز اسم ماريانا على شال كشمير، السعر حكينا 100 شيكل بس بدي اياه ضروري اليوم"
+                },
+                "createdAt": "2026-03-20T00:07:54.420Z"
+                }
+            ]
+        }
+
+1️⃣ Priority & Pricing
+    . POST
+    . http://localhost:3000/webhook/1
+    . Body:
+        {
+            "message": "بدي تطريز اسم سند على تيشيرت، وخلي الموضوع مستعجل لأنه هدية"
+        }
+    .Response:
+        {
+            "message": "Webhook received, job queued ✅",
+            "job": [
+                {
+                "id": 2,
+                "pipelineId": 1,
+                "status": "pending",
+                "payload": {
+                    "message": "بدي تطريز اسم سند على تيشيرت، وخلي الموضوع مستعجل لأنه هدية"
+                },
+                "createdAt": "2026-03-20T00:16:53.519Z"
+                }
+            ]
+        }
+
+2️⃣ Successful Delivery  
+    . POST
+    . http://localhost:3000/subscribers
+    . Body:
+        {
+            "pipelineId": 1,
+            "targetUrl": "https://webhook.site/218b120a-75d0-46a0-bc3e-fe275d90f724" 
+        }
+    . http://localhost:3000/webhook/1
+    . Body:
+        {
+            "message": "بدي تطريز اسم سند على تيشيرت، وخلي الموضوع مستعجل لأنه هدية"
+        }
+
+3️⃣ The Retry Logic
+    . POST
+        . http://localhost:3000/subscribers
+        . Body:
+            {
+                "pipelineId": 1,
+                "targetUrl": "http://localhost:9999mm" 
+            }
+        . http://localhost:3000/webhook/1

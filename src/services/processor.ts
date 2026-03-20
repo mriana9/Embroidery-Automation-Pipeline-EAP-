@@ -17,7 +17,7 @@ export const processJob = async (payload: any) => {
   const estimatedPrice = products[foundProduct] || 50;
 
   // 3. Entity Extraction (Name Parser)
-  const nameMatch = text.match(/اسم\s+(\S+)/);
+  const nameMatch = text.match(/(?:اسم|لـ|باسم)\s+(\S+)/);
   const extractedName = nameMatch ? nameMatch[1] : "غير معروف";
 
   // 4. Priority Detection Action

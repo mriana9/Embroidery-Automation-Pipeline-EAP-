@@ -1,7 +1,7 @@
 import './index.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Activity, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Activity, CheckCircle2, AlertCircle, Zap } from 'lucide-react';
 
 interface ParsedData {
   extractedName?: string;
@@ -26,7 +26,6 @@ interface Job {
 
 function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
-
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -79,6 +78,7 @@ function App() {
               <th className="p-4 font-semibold text-gray-700">Customer</th>
               <th className="p-4 font-semibold text-gray-700">Product</th>
               <th className="p-4 font-semibold text-gray-700">Price</th>
+              <th className="p-4 font-semibold text-gray-700">Priority</th>
               <th className="p-4 font-semibold text-gray-700">Status</th>
             </tr>
           </thead>
@@ -95,6 +95,19 @@ function App() {
                 <td className="p-4 text-emerald-600 font-bold">
                   {job.payload.parsed?.price ? `${job.payload.parsed.price} ₪` : '-'}
                 </td>
+
+                {/* التعديل هنا: عرض خانة الأولوية مع الألوان */}
+                <td className="p-4">
+                  {job.payload.parsed?.priority === 'urgent' ? (
+                    <span className="flex items-center gap-1 text-red-600">
+                      <Zap size={14} className="fill-current" />
+                      URGENT
+                    </span>
+                  ) : (
+                    <span className="text-gray-400 font-medium">Normal</span>
+                  )}
+                </td>
+
                 <td className="p-4">
                   <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${job.status === 'completed' ? 'bg-green-100 text-green-700' :
                     job.status === 'failed' ? 'bg-red-100 text-red-700' :
