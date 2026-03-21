@@ -11,9 +11,10 @@ const MAX_ATTEMPTS = 3; // Maximum number of delivery retries
 const processJobs = async () => {
   // Select all jobs currently marked as 'pending'
   const pendingJobs = await db
-    .select()
-    .from(jobs)
-    .where(eq(jobs.status, "pending"));
+    .update(jobs)
+    .set({ status: "processing" })
+    .where(eq(jobs.status, "pending"))
+    .returning();
 
   for (const job of pendingJobs) {
     try {
@@ -62,9 +63,7 @@ const processJobs = async () => {
   }
 };
 
-/**
- * Handles delivering the result to a specific subscriber URL with built-in retry logic
- */
+/* Handles delivering the result to a specific subscriber URL with built-in retry logic */
 const deliverToSubscriber = async (
   jobId: number,
   targetUrl: string,

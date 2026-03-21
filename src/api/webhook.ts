@@ -6,6 +6,10 @@ export const handleWebhook = async (req: Request, res: Response) => {
   try {
     const { pipelineId } = req.params;
 
+    if (!pipelineId) {
+      return res.status(400).json({ error: "pipelineId required" });
+    }
+
     const job = await db
       .insert(jobs)
       .values({
