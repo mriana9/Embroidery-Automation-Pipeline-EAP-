@@ -57,6 +57,9 @@
         GET /jobs
         GET /jobs/:id
 
+    - Subscribers:
+        POST /subscribers
+
 🔁 Retry Logic:
     attempts: 3
     backoff: exponential
@@ -67,12 +70,14 @@
 
 
 🚀 Step 1: Project Setup:
-     #_structure:
+     #_structure: Separation of Concerns
         src/
-        ├── api/          # routes + controllers
+        ├── api/          # Endpoints
         ├── db/           # drizzle config + schema
         ├── worker/       # background processor
         ├── services/     # processing actions
+        ├── index.ts
+        
 
 ------------------------------------------------------------------------------------------------------------
 🐳 PostgreSQL Using Docker:
@@ -192,3 +197,9 @@
                 "targetUrl": "http://localhost:9999mm" 
             }
         . http://localhost:3000/webhook/1
+
+------------------------------------------------------------------------------------------------------------
+# Drizzle -> ORM Library [Object Relational Mapper]
+    - I used Drizzle ORM as a database tool, It helps me write TypeScript code to talk to the database, 
+      It is very fast and helps me avoid errors
+

@@ -16,6 +16,10 @@ const processJobs = async () => {
     .where(eq(jobs.status, "pending"))
     .returning();
 
+  if (pendingJobs.length > 0) {
+    console.log(`[Worker] Found ${pendingJobs.length} jobs to process...`);
+  }
+  
   for (const job of pendingJobs) {
     try {
       // 1. Mark the job as 'processing' to prevent other worker instances from picking it up

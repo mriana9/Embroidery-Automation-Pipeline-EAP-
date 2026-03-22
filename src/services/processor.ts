@@ -1,3 +1,8 @@
+/*
+"The Processor is the brain of the project. 
+It takes the customer's message and finds the Name, Product, Price, and Priority. 
+It uses Regex to find names and a Pricing Map to find prices. This changes 'text' into 'data'."
+ */
 export const processJob = async (payload: any) => {
   const text = payload.message || "";
 
@@ -7,7 +12,7 @@ export const processJob = async (payload: any) => {
     تيشيرت: 80,
     مخدة: 60,
     شال: 100,
-    فستان: 350,
+    فستان: 350,  
   };
 
   const foundProduct =

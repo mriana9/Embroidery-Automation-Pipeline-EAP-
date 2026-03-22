@@ -3,6 +3,12 @@ import { db } from "../db";
 import { pipelines } from "../db/schema";
 import { eq } from "drizzle-orm";
 
+/*
+returning()? Usually, when we Insert data, the database does not give back the new ID. 
+By using . returning(), the database saves the data and returns the new ID and details immediately. 
+This makes the code faster and shorte
+ */
+
 // CREATE
 export const createPipeline = async (req: Request, res: Response) => {
   try {
